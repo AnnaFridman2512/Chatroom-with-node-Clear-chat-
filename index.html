@@ -7,13 +7,32 @@
     <title>Document</title>
 </head>
 <body>  
-   
-        REPLACE_ME
+    
+    <ul id="list">
+
+    </ul>
+       
     
     <form method="GET">
         <input name="name" placeholder="Name">
         <input name="message" placeholder="Message">
         <input type="submit">
     </form>   
+    <script>
+        async function getMessages(){//If we use "await" we have to use a function
+           const result = await fetch('/messages');//Get the data from the server using fetch - returns a promise
+                                                   //we can't access the data, we save it in "result"
+           const messages = await result.json();//Takes the data that is stored in "result" and convert it to an actual data we CAN access
+           const messagesListString =  messages//In this case the data is an array of messages objects 
+           .map(({message, name, date}) => `<li>${name}: ${message} ${date}</li>`).join('');
+
+           document.querySelector('#list').innerHTML = messagesListString;
+        }
+
+        getMessages();
+        setInterval(getMessages, 1000);//calls getMessages() every sec - we have the "readFileSync"  
+                                       //for 'messages.json'(that changes every time we write a new message)
+                                       //this one will call getMessages() every sec and display the changed 'messages.json' in the DOM
+    </script>                                   
 </body>
 </html>
