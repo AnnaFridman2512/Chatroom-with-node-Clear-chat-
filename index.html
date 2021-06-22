@@ -12,11 +12,12 @@
 
     </ul>
        
-    
+
     <form method="GET">
         <input name="name" placeholder="Name">
         <input name="message" placeholder="Message">
         <input type="submit">
+        <button id="clear">CLEAR</button>
     </form>   
     <script>
         async function getMessages(){//If we use "await" we have to use a function
@@ -28,6 +29,13 @@
 
            document.querySelector('#list').innerHTML = messagesListString;
         }
+        
+      
+        document.querySelector('#clear').addEventListener('click', async function(){
+            const result = await fetch('deleteMessageHistory');
+
+            document.querySelector('#list').innerHTML = result;
+        });
 
         getMessages();
         setInterval(getMessages, 1000);//calls getMessages() every sec - we have the "readFileSync"  

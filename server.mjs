@@ -19,7 +19,7 @@ app.get('/', (request, response) => {//When asking for main page
             date: new Date(),
         });
 
-        fs.writeFileSync('messages.json', JSON.stringify(messages));//Replaces the content of 'messages.json' with 
+        fs.writeFileSync('messages.json', JSON.stringify(messages), {encoding: 'UTF-8'});//Replaces the content of 'messages.json' with 
                                                                    //JSON.stringify - Takes the "messages" object and converts it to a string, 
                                                     
     }
@@ -37,5 +37,10 @@ app.get('/messages', (request, response) => {  //When asking for 'messages'
 }
 );
 
+app.get('/deleteMessageHistory', (request, response) => {  //When asking for 'messages' 
+
+    const deleteMessage= fs.writeFileSync('messages.json', "[]", {encoding: "UTF-8"});//Replaces the content of 'messages.json' with []
+    response.send(deleteMessage); 
+});
 app.listen(8080); //Port
 
